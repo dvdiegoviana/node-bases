@@ -2,11 +2,15 @@ const http = require('http');
 const express = require('express')
 const app = express()
 const port = 3001
+const fs = require('fs');
+
 
 app.use(express.static('public'))
 
 app.get('/', (request, serverResponse) => { 
-    serverResponse.sendFile(__dirname+"/resources/index.html")
+    var contents = fs.readFileSync(__dirname+"/resources/index.html", 'utf8');
+    serverResponse.set('Content-Type', 'text/html');
+    serverResponse.send(contents);
 });
 
 const httpServer = http.createServer(app);
